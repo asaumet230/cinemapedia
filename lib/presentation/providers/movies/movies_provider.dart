@@ -24,9 +24,27 @@ final popularMoviesProvider =
   },
 );
 
+//* 3 Llama el endpoint upcomming movies de the movie db
+final upCoomingMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getUpCooming;
+    return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+  },
+);
+
+//* 4 Llama el endpoint top rated movies de the movie db
+final topRatedMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getTopRated;
+    return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+  },
+);
+
 typedef MovieCallback = Future<List<Movie>> Function({int page});
 
-//! CLASE QUE CONTROLA EL ESTADO
+//! CLASE QUE CONTROLA LOS ESTADOS HAY UNO POR CADA OBJETO QUE CREE UN ENDPOINT:
 
 class MoviesNotifier extends StateNotifier<List<Movie>> {
   int currentPage = 0;

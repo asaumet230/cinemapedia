@@ -31,13 +31,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upCoomingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoadingMovies = ref.watch(initialLoadingProvider);
+
+    if (isLoadingMovies) return const FullScreenLoader();
+
+    //? PORQUE SE HACE EL IF AQUÍ SIMPLE PORQUE TE AHORRAS LA RENDERIZADA DE LOS WIDGETS Y LA OBSERVADA DE LOS DEMAS PROVIDERS
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
+    final upCoomingMovies = ref.watch(upCoomingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return CustomScrollView(
       slivers: [
@@ -55,34 +65,34 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   MoviesSlideShow(movies: moviesSlideshow),
                   MoviesHorizontalListView(
                     movies: nowPlayingMovies,
-                    title: 'In Cinema',
-                    subTitle: 'Monday 20',
-                    loadNextPage: () => ref
-                        .watch(nowPlayingMoviesProvider.notifier)
-                        .loadNextPage(),
-                  ),
-                  MoviesHorizontalListView(
-                    movies: nowPlayingMovies,
-                    title: 'Cooming Soon',
-                    subTitle: 'In 2023',
+                    title: 'En Cines',
+                    subTitle: 'Lunes 31',
                     loadNextPage: () => ref
                         .watch(nowPlayingMoviesProvider.notifier)
                         .loadNextPage(),
                   ),
                   MoviesHorizontalListView(
                     movies: popularMovies,
-                    title: 'Popular',
-                    subTitle: 'Pop Movies',
+                    title: 'Populares',
+                    subTitle: 'En 2023',
                     loadNextPage: () => ref
                         .watch(popularMoviesProvider.notifier)
                         .loadNextPage(),
                   ),
                   MoviesHorizontalListView(
-                    movies: nowPlayingMovies,
-                    title: 'Top Rated',
-                    subTitle: 'By Academics',
+                    movies: upCoomingMovies,
+                    title: 'Proximamente',
+                    subTitle: 'Proximos Estrenos',
                     loadNextPage: () => ref
-                        .watch(nowPlayingMoviesProvider.notifier)
+                        .watch(upCoomingMoviesProvider.notifier)
+                        .loadNextPage(),
+                  ),
+                  MoviesHorizontalListView(
+                    movies: topRatedMovies,
+                    title: 'Mejor Valorada',
+                    subTitle: 'Por La Academia',
+                    loadNextPage: () => ref
+                        .watch(topRatedMoviesProvider.notifier)
                         .loadNextPage(),
                   ),
                   const SizedBox(height: 10)
