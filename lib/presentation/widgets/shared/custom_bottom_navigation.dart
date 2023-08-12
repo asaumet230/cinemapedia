@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
-  const CustomBottomNavigation({super.key});
+  final int currentIndex;
+
+  const CustomBottomNavigation({
+    super.key,
+    required this.currentIndex,
+  });
+
+  void onItemTapped(BuildContext context, int index) {}
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      onTap: (value) {},
+      currentIndex: currentIndex,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_max),
