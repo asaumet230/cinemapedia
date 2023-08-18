@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
   final int currentIndex;
@@ -8,12 +9,15 @@ class CustomBottomNavigation extends StatelessWidget {
     required this.currentIndex,
   });
 
-  void onItemTapped(BuildContext context, int index) {}
+  void onItemTapped(BuildContext context, int index) {
+    if (index > 2) return context.go('/home/0');
+    context.go('/home/$index');
+  }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      onTap: (value) {},
+      onTap: (index) => onItemTapped(context, index),
       currentIndex: currentIndex,
       items: const [
         BottomNavigationBarItem(

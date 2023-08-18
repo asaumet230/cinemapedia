@@ -1,4 +1,9 @@
+import 'package:isar/isar.dart';
+part 'movie.g.dart';
+
+@collection // Esto es un decorador que conenta a la base de datos local ISAR
 class Movie {
+  Id? isarId;
   final bool adult;
   final String backdropPath;
   final List<String> genreIds;
