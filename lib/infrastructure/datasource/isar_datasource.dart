@@ -48,10 +48,12 @@ class IsarDatasource implements LocalStorageDatasource {
         await isar.movies.filter().idEqualTo(movie.id).findFirst();
 
     if (favoriteMovie != null) {
-      isar.writeTxnSync(() => isar.movies.deleteSync(movie.isarId!));
+      // Borrar
+      isar.writeTxnSync(() => isar.movies.deleteSync(favoriteMovie.isarId!));
       return;
     }
 
+    // Insertar
     isar.writeTxnSync(() => isar.movies.putSync(movie));
   }
 }

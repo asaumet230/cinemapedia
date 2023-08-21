@@ -25,8 +25,9 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>> {
   LocalStorageRepository localStorageRepository; //Domain
   StorageMoviesNotifier({required this.localStorageRepository}) : super({});
 
-  Future<void> loadNextPage() async {
-    final movies = await localStorageRepository.loadMovies(offset: page * 10);
+  Future<List<Movie>> loadNextPage() async {
+    final movies =
+        await localStorageRepository.loadMovies(offset: page * 10, limit: 20);
     page++;
 
     final tempMoviesMap = <int, Movie>{};
@@ -36,5 +37,23 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>> {
     }
 
     state = {...state, ...tempMoviesMap};
+
+    return movies;
+  }
+
+  Future<void> toggleFavorite(Movie movie) async {
+    final isMovieFavorites =
+        await localStorageRepository.isMovieFavorite(movie.id);
+    await localStorageRepository.toggleFavorite(movie);
+
+    // final bool isMovieFavorites = state[movie.id] != null;
+
+    if (isMovieFavorites) {
+      state.remove(movie
+          .id); // No actualiza el state como en react en el reducer porque se esta mutando debe haber un cambio en el state
+      state = {...state};
+    } else {
+      state = {...state, movie.id: movie};
+    }
   }
 }

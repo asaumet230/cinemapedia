@@ -1,3 +1,5 @@
+export './movies/movie_mansonry.dart';
+export './movies/movie_poster_link.dart';
 export 'movies/movies_horizontal_listview.dart';
 export 'movies/movies_slideshow.dart';
 export 'shared/custom_appbar.dart';

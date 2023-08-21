@@ -61,9 +61,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
-final isFavoriteMovie = FutureProvider((ref) {
-  return true;
-});
+// final isFavoriteMovie = FutureProvider((ref) {
+//   return true;
+// });
 
 class _CustomSliverAppBar extends ConsumerWidget {
   final Movie movie;
@@ -83,14 +83,19 @@ class _CustomSliverAppBar extends ConsumerWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () {
-            ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+          onPressed: () async {
+            await ref
+                .read(favoritesMoviesProvider.notifier)
+                .toggleFavorite(movie);
+            // ref.read(localStorageRepositoryProvider).toggleFavorite(movie);
             ref.invalidate(isFavoriteProvider(movie.id));
           },
           icon: isFavoriteMovie.when(
-            data: (isFavorite) => isFavorite
-                ? const Icon(Icons.favorite_rounded, color: Colors.red)
-                : const Icon(Icons.favorite_border),
+            data: (isFavorite) {
+              return isFavorite
+                  ? const Icon(Icons.favorite_rounded, color: Colors.red)
+                  : const Icon(Icons.favorite_border);
+            },
             error: (_, __) => throw UnimplementedError(),
             loading: () => const CircularProgressIndicator(strokeWidth: 2),
           ),
