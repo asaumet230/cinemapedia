@@ -42,6 +42,8 @@ final topRatedMoviesProvider =
   },
 );
 
+
+
 typedef MovieCallback = Future<List<Movie>> Function({int page});
 
 //! CLASE QUE CONTROLA LOS ESTADOS HAY UNO POR CADA OBJETO QUE CREE UN ENDPOINT:

@@ -7,11 +7,15 @@ import '../../../domain/entities/movie.dart';
 class MovieMasonry extends StatefulWidget {
   final List<Movie> movies;
   final VoidCallback? loadNextPage;
+  final String title;
+  final String subtitle;
 
   const MovieMasonry({
     super.key,
     required this.movies,
     this.loadNextPage,
+    required this.title,
+    required this.subtitle,
   });
 
   @override
@@ -42,28 +46,52 @@ class _MovieMasonryState extends State<MovieMasonry> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: MasonryGridView.count(
-        controller: scrollController,
-        crossAxisCount: 3,
-        itemCount: widget.movies.length,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        itemBuilder: (context, index) {
-          final movie = widget.movies[index];
+    final textStyle = Theme.of(context).textTheme;
 
-          if (index == 1) {
-            return Column(
-              children: [
-                const SizedBox(height: 40),
-                MoviePosterLink(movie: movie)
-              ],
-            );
-          }
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(children: [
+          Row(
+            children: [
+              Text(
+                widget.title,
+                style: textStyle.titleLarge,
+              ),
+              const Spacer(),
+              FilledButton.tonal(
+                onPressed: () {},
+                child: Text(
+                  widget.subtitle,
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 15),
+          Expanded(
+            child: MasonryGridView.count(
+              controller: scrollController,
+              crossAxisCount: 3,
+              itemCount: widget.movies.length,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              itemBuilder: (context, index) {
+                final movie = widget.movies[index];
 
-          return MoviePosterLink(movie: movie);
-        },
+                if (index == 1) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 40),
+                      MoviePosterLink(movie: movie)
+                    ],
+                  );
+                }
+
+                return MoviePosterLink(movie: movie);
+              },
+            ),
+          ),
+        ]),
       ),
     );
   }
