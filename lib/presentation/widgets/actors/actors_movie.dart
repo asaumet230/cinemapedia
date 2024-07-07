@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
@@ -24,7 +23,7 @@ class ActorsMovie extends ConsumerWidget {
     final actors = actorsByMovie[movieId]!;
 
     return SizedBox(
-      height: 300,
+      height: 310,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: actors.length,
